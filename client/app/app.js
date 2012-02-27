@@ -32,7 +32,8 @@ steal(
 )
 /** == controllers == **/
 .then(
-	'./controllers/init.js'
+	'./controllers/init_controller.js',
+	'./controllers/board_controller.js'
 )
 /** == boot strap == **/
 .then(function() {
