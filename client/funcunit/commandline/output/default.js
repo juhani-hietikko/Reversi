@@ -36,7 +36,7 @@
 		}
 	};
 	
-	var evts = ['browserStart', 'browserDone', 'testStart', 'testDone', 
+	var evts = ['begin', 'browserStart', 'browserDone', 'testStart', 'testDone', 
 				'moduleStart', 'moduleDone', 'done', 'log'];
 	
 	for (var i = 0; i < evts.length; i++) {
