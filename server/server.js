@@ -17,7 +17,8 @@ var ALLOWED = {
         /^\/app\/.*/,
         /^\/steal\/.*/,
         /^\/jquery\/.*/,
-        /^\/rest\/.*/
+        /^\/rest\/.*/,
+        /^\/funcunit\/.*/
     ]
 };
 
