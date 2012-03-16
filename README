@@ -1,0 +1,6 @@
+How to start server:
+node server/server.js
+
+How to run tests:
+in /client/
+steal/js funcunit/run phantomjs http://localhost:8080/app/funcunit.html
