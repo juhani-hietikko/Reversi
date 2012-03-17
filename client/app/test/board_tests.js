@@ -24,12 +24,6 @@ steal("funcunit").then(function() {
 		},
 	});
 	
-	test("displays title", function() {
-		S(document).ready(function() {
-			equal(S('h1').text(), "Reversi");
-		});
-	});
-	
 	test("displays a 8x8 board", function() {
 		S(document).ready(function() {
 			equal(S('table').length, 1);
