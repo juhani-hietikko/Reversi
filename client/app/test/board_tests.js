@@ -1,9 +1,27 @@
 steal("funcunit").then(function() {
+	
+	var WHITE_DISC = "<img src=\"img/white.png\">";
+	var BLACK_DISC = "<img src=\"img/black.png\">";
+	var EMPTY_SQUARE = "<img src=\"img/empty.png\">";
 
+	var findCell = function(rowIndexOfCell, colIndexOfCell) {
+		var foundCell = null;
+		S('table tr').each(function(rowIndex, row) {
+			if (rowIndex == rowIndexOfCell) {
+				S(row).find('td').each(function(colIndex, cell) {
+					if (colIndex == colIndexOfCell) {
+						foundCell = cell;
+					}
+				});
+			}
+		});
+		return foundCell;
+	};
+	
 	module("board tests",{
 		setup: function() {
 			S.open('http://localhost:8080/app/index.html');
-		}
+		},
 	});
 	
 	test("displays title", function() {
@@ -20,12 +38,8 @@ steal("funcunit").then(function() {
 		});
 	});
 	
+	
 	test("sets up the initial disc pattern on the board", function() {
-		
-		var WHITE_DISC = "<img src=\"img/white.png\">";
-		var BLACK_DISC = "<img src=\"img/black.png\">";
-		var EMPTY_SQUARE = "<img src=\"img/empty.png\">";
-		
 		S(document).ready(function() {
 			S('table tr').each(function(rowIndex, row) {
 				S(row).find('td').each(function(colIndex, cell) {
@@ -42,6 +56,19 @@ steal("funcunit").then(function() {
 					}
 				});
 			});
+		});
+	});
+		
+	test("clicking a cell places a black disk", function() {
+		S(document).ready(function() {
+			cellToClick = findCell(7, 7);
+			var img = cellToClick.getElementsByTagName("img")[0];
+			//equal(img.tagName, "img");
+			S(img).click();
+			S.wait(100, function() {
+				equal(cellToClick.innerHTML, BLACK_DISC);	
+			});
+			//equal(findCell(4, 4).innerHTML, WHITE_DISC);
 		});
 	});
 });
