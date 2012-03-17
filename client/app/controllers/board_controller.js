@@ -22,6 +22,6 @@ $.Controller.extend("App.Controllers.Board", {
 		var clickedRowIndex = ev.target.parentNode.parentNode.rowIndex;
 		var clickedColIndex = ev.target.parentNode.cellIndex;
 		var clickedCell = this.findCell(clickedRowIndex, clickedColIndex);
-		$(clickedCell).html('<img src=\"img/black.png\">');
+		$(clickedCell).html('//app/views/sections/black_disk.ejs', {});  //'<img src=\"img/black.png\">');
 	}
 });

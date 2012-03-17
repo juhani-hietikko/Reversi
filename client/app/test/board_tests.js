@@ -62,13 +62,11 @@ steal("funcunit").then(function() {
 	test("clicking a cell places a black disk", function() {
 		S(document).ready(function() {
 			cellToClick = findCell(7, 7);
-			var img = cellToClick.getElementsByTagName("img")[0];
-			//equal(img.tagName, "img");
+			var img = S(cellToClick).find("img");
 			S(img).click();
 			S.wait(100, function() {
 				equal(cellToClick.innerHTML, BLACK_DISC);	
 			});
-			//equal(findCell(4, 4).innerHTML, WHITE_DISC);
 		});
 	});
 });
