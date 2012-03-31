@@ -23,5 +23,6 @@ $.Controller.extend("App.Controllers.Board", {
 		var clickedColIndex = ev.target.parentNode.cellIndex;
 		var clickedCell = this.findCell(clickedRowIndex, clickedColIndex);
 		$(clickedCell).html('//app/views/sections/black_disk.ejs', {});
+		this.publish('moveDoneByPlayer', {});
 	}
 });

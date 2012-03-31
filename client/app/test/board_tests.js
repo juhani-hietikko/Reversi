@@ -1,22 +1,8 @@
-steal("funcunit").then(function() {
+steal("funcunit", "./board_utils.js").then(function() {
 	
 	var WHITE_DISC = "<img src=\"img/white.png\">";
 	var BLACK_DISC = "<img src=\"img/black.png\">";
 	var EMPTY_SQUARE = "<img src=\"img/empty.png\">";
-
-	var findCell = function(rowIndexOfCell, colIndexOfCell) {
-		var foundCell = null;
-		S('table tr').each(function(rowIndex, row) {
-			if (rowIndex == rowIndexOfCell) {
-				S(row).find('td').each(function(colIndex, cell) {
-					if (colIndex == colIndexOfCell) {
-						foundCell = cell;
-					}
-				});
-			}
-		});
-		return foundCell;
-	};
 	
 	module("board tests",{
 		setup: function() {
@@ -55,11 +41,8 @@ steal("funcunit").then(function() {
 		
 	test("clicking a cell places a black disk", function() {
 		S(document).ready(function() {
-			cellToClick = findCell(7, 7);
-			var img = S(cellToClick).find("img");
-			S(img).click();
-			S.wait(100, function() {
-				equal(cellToClick.innerHTML, BLACK_DISC);	
+			clickCell(7, 7).andThen(function(clickedCell) {
+				equal(clickedCell.innerHTML, BLACK_DISC);
 			});
 		});
 	});
