@@ -20,11 +20,18 @@ steal("funcunit", "./board_utils.js").then(function() {
 	
 	test("after first move says white is to move", function() {
 		S(document).ready(function() {
-			cellToClick = findCell(3, 2);
-			var img = S(cellToClick).find("img");
-			S(img).click();
-			S.wait(100, function() {
+			clickCell(3, 2).andThen(function(clickedCell) {
 				equal(S('#whoseMove').text(), "White to move.");
+			});
+		});
+	});
+	
+	test("after second move says black is to move", function() {
+		S(document).ready(function() {
+			clickCell(3, 2).andThen(function(ignored) {
+				clickCell(2, 2).andThen(function(clickedCell) {
+					equal(S('#whoseMove').text(), "Black to move.");
+				});
 			});
 		});
 	});
