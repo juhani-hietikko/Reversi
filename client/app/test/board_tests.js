@@ -86,4 +86,16 @@ steal("funcunit", "./board_utils.js").then(function() {
 			});
 		});
 	});
+	
+	test("move sequence black:3,2 then white:2,2 then black:2,1 flips the white disk on 2,2", function() {
+		S(document).ready(function() {
+			clickCell(3, 2).andThen(function() {
+				clickCell(2, 2).andThen(function() {
+					clickCell(1, 2).andThen(function() {
+						equal(findCell(2, 2).innerHTML, BLACK_DISC);
+					});
+				});
+			});
+		});
+	});
 });
