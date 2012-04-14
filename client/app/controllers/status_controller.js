@@ -13,7 +13,7 @@ $.Controller.extend("App.Controllers.Status", {
     	});
     },
     
-    'moveDoneByPlayer subscribe': function(call, ignored) {
+    'moveDoneByPlayer subscribe': function() {
     	if (this.whoseMove == 'Black')
     		this.whoseMove = 'White';
     	else

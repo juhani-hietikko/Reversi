@@ -41,8 +41,48 @@ steal("funcunit", "./board_utils.js").then(function() {
 		
 	test("clicking a cell places a black disk", function() {
 		S(document).ready(function() {
-			clickCell(7, 7).andThen(function(clickedCell) {
+			clickCell(3, 2).andThen(function(clickedCell) {
 				equal(clickedCell.innerHTML, BLACK_DISC);
+			});
+		});
+	});
+	
+	test("clicking a cell after the initial move places a white disk", function() {
+		S(document).ready(function() {
+			clickCell(3, 2).andThen(function() {
+				clickCell(4, 2).andThen(function(clickedCell) {
+					equal(clickedCell.innerHTML, WHITE_DISC);
+				});
+			});
+		});
+	});
+	
+	test("clicking a cell third time places a black disk", function() {
+		S(document).ready(function() {
+			clickCell(3, 2).andThen(function() {
+				clickCell(4, 2).andThen(function() {
+					clickCell(2, 2).andThen(function(clickedCell) {
+						equal(clickedCell.innerHTML, BLACK_DISC);
+					});
+				});
+			});
+		});
+	});
+	
+	test("placing a black disk to 3,2 flips the white disk on 3,3", function() {
+		S(document).ready(function() {
+			clickCell(3, 2).andThen(function() {
+				equal(findCell(3, 3).innerHTML, BLACK_DISC);
+			});
+		});
+	});
+	
+	test("move sequence black:3,2 then white:2,2 flips the black disk on 3,3", function() {
+		S(document).ready(function() {
+			clickCell(3, 2).andThen(function() {
+				clickCell(2, 2).andThen(function() {
+					equal(findCell(3, 3).innerHTML, WHITE_DISC);
+				});
 			});
 		});
 	});
