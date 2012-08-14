@@ -1,7 +1,9 @@
 function Board(viewUpdater) {
-	var empty = 'empty';
-	var black = 'black';
-	var white = 'white';
+	const EMPTY = 'empty';
+	const BLACK = 'black';
+	const WHITE = 'white';
+	const LEGAL_MOVE = true;
+	const ILLEGAL_MOVE = false;
 	
 	var myCells = new Array();
 	this.cells = myCells;
@@ -10,13 +12,13 @@ function Board(viewUpdater) {
 		this.cells[i] = row;
 		for (var j = 0; j < 8; j++) {
 			if ((i == 3 && j == 3) || (i == 4 && j == 4)) {
-				row[j] = white;
+				row[j] = WHITE;
 			} else if ((i == 3 && j == 4) || (i == 4 && j == 3)) {
-				row[j] = black;
+				row[j] = BLACK;
 			} else {
-				row[j] = empty;
-			}
-		}
+				row[j] = EMPTY;
+			};
+		};
 	}
 	
 	this.placeDisk = function(rowIndex, colIndex, player) {
@@ -24,8 +26,8 @@ function Board(viewUpdater) {
 			myCells[rowIndex][colIndex] = color;
 			viewUpdater.updateCell(rowIndex, colIndex, color);
 		};
-		if (myCells[rowIndex][colIndex] != empty) {
-			return false;
+		if (myCells[rowIndex][colIndex] != EMPTY) {
+			return ILLEGAL_MOVE;
 		}
 		
 		var findCellsToFlip = function(enclosingColor, edgeX, edgeY, xDirection, yDirection) {
@@ -34,13 +36,13 @@ function Board(viewUpdater) {
 			var y = edgeY + yDirection;
 			for (var i = x, j = y; i < 8 && i >= 0 && j < 8 && j >= 0; i += xDirection, j += yDirection) {
 				var currentColor = myCells[i][j];
-				if (currentColor != empty && currentColor != enclosingColor) {
+				if (currentColor != EMPTY && currentColor != enclosingColor) {
 					cellsToFlip.push({ newColor: enclosingColor, x: i, y: j });
 				} else if (currentColor == enclosingColor) {
 					return cellsToFlip;
 				} else {
 					return new Array();
-				}
+				};
 			}
 			return new Array();
 		};
@@ -48,22 +50,22 @@ function Board(viewUpdater) {
 			for (var i = 0; i < cellsToFlip.length; i++) {
 				var flip = cellsToFlip[i];
 				updateCell(flip.x, flip.y, flip.newColor);
-			}
+			};
 		};
 		cellsToFlip = new Array();
 		for (var xDir = -1; xDir <= 1; xDir++) {
 			for (var yDir = -1; yDir <= 1; yDir++) {
 				if (xDir != 0 || yDir != 0) {
 					cellsToFlip = cellsToFlip.concat(findCellsToFlip(player, rowIndex, colIndex, xDir, yDir));
-				}
-			}	
+				};
+			};
 		}
 		if (cellsToFlip.length > 0) {
 			flip(cellsToFlip);
 			updateCell(rowIndex, colIndex, player);
-			return true;
+			return LEGAL_MOVE;
 		} else {
-			return false;
-		}
+			return ILLEGAL_MOVE;
+		};
 	};
 };

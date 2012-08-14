@@ -41,12 +41,8 @@ $.Controller.extend("App.Controllers.Board", {
 		var clickedRowIndex = ev.target.parentNode.parentNode.rowIndex;
 		var clickedColIndex = ev.target.parentNode.cellIndex;
 		
-		var moveSuccessful = false;
-		if (this.moves % 2 == 0)
-			moveSuccessful = this.placeDisk(clickedRowIndex, clickedColIndex, 'black');	
-		else
-			moveSuccessful = this.placeDisk(clickedRowIndex, clickedColIndex, 'white');
-
+		var playerToMove = this.moves % 2 == 0 ? 'black' : 'white';
+		var moveSuccessful = this.placeDisk(clickedRowIndex, clickedColIndex, playerToMove);
 		if (moveSuccessful) {
 			this.moves++;
 			this.publish('moveDoneByPlayer');
