@@ -26,8 +26,7 @@ steal(
 )
 /** == models == **/
 .then(
-	'./models/board.js',
-	'./models/cell.js'
+	'./models/board.js'
 )
 /** == super controllers == **/
 .then(
