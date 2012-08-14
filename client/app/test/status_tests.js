@@ -35,4 +35,12 @@ steal("funcunit", "./board_utils.js").then(function() {
 			});
 		});
 	});
+	
+	test("after an illegal initial move attempt says black is to move", function() {
+		S(document).ready(function() {
+			clickCell(3, 3).andThen(function(clickedCell) {
+				equal(S('#whoseMove').text(), "Black to move.");
+			});
+		});
+	});
 });

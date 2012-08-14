@@ -34,19 +34,22 @@ $.Controller.extend("App.Controllers.Board", {
 	},
     
 	placeDisk: function(rowIndex, colIndex, player) {
-		this.board.placeDisk(rowIndex, colIndex, player);
+		return this.board.placeDisk(rowIndex, colIndex, player);
 	},
 
 	click: function(el, ev) {
 		var clickedRowIndex = ev.target.parentNode.parentNode.rowIndex;
 		var clickedColIndex = ev.target.parentNode.cellIndex;
 		
+		var moveSuccessful = false;
 		if (this.moves % 2 == 0)
-			this.placeDisk(clickedRowIndex, clickedColIndex, 'black');	
+			moveSuccessful = this.placeDisk(clickedRowIndex, clickedColIndex, 'black');	
 		else
-			this.placeDisk(clickedRowIndex, clickedColIndex, 'white');
-		this.moves++;
-		
-		this.publish('moveDoneByPlayer');
+			moveSuccessful = this.placeDisk(clickedRowIndex, clickedColIndex, 'white');
+
+		if (moveSuccessful) {
+			this.moves++;
+			this.publish('moveDoneByPlayer');
+		}
 	}
 });

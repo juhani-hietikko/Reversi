@@ -24,7 +24,9 @@ function Board(viewUpdater) {
 			myCells[rowIndex][colIndex] = color;
 			viewUpdater.updateCell(rowIndex, colIndex, color);
 		};
-		updateCell(rowIndex, colIndex, player);
+		if (myCells[rowIndex][colIndex] != empty) {
+			return false;
+		}
 		
 		var findCellsToFlip = function(enclosingColor, edgeX, edgeY, xDirection, yDirection) {
 			var cellsToFlip = new Array();
@@ -56,6 +58,12 @@ function Board(viewUpdater) {
 				}
 			}	
 		}
-		flip(cellsToFlip);
+		if (cellsToFlip.length > 0) {
+			flip(cellsToFlip);
+			updateCell(rowIndex, colIndex, player);
+			return true;
+		} else {
+			return false;
+		}
 	};
 };

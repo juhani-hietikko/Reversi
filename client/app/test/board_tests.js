@@ -61,7 +61,7 @@ steal("funcunit", "./board_utils.js").then(function() {
 		S(document).ready(function() {
 			clickCell(3, 2).andThen(function() {
 				clickCell(4, 2).andThen(function() {
-					clickCell(2, 2).andThen(function(clickedCell) {
+					clickCell(5, 2).andThen(function(clickedCell) {
 						equal(clickedCell.innerHTML, BLACK_DISC);
 					});
 				});
@@ -95,6 +95,22 @@ steal("funcunit", "./board_utils.js").then(function() {
 						equal(findCell(2, 2).innerHTML, BLACK_DISC);
 					});
 				});
+			});
+		});
+	});
+	
+	test("trying to place a disk into a reserved position leaves the reserved cell as it is", function() {
+		S(document).ready(function() {
+			clickCell(3, 3).andThen(function() {
+				equal(findCell(3, 3).innerHTML, WHITE_DISC);
+			});
+		});
+	});
+	
+	test("trying to place a disk into an illegal empty position leaves the cell empty", function() {
+		S(document).ready(function() {
+			clickCell(3, 5).andThen(function() {
+				equal(findCell(3, 5).innerHTML, EMPTY_SQUARE);
 			});
 		});
 	});
