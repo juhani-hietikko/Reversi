@@ -1,6 +1,8 @@
-
-
 function Board(viewUpdater) {
+	var empty = 'empty';
+	var black = 'black';
+	var white = 'white';
+	
 	var myCells = new Array();
 	this.cells = myCells;
 	for (var i = 0; i < 8; i++) {
@@ -8,27 +10,30 @@ function Board(viewUpdater) {
 		this.cells[i] = row;
 		for (var j = 0; j < 8; j++) {
 			if ((i == 3 && j == 3) || (i == 4 && j == 4)) {
-				row[j] = new Cell('white');
+				row[j] = white;
 			} else if ((i == 3 && j == 4) || (i == 4 && j == 3)) {
-				row[j] = new Cell('black');
+				row[j] = black;
 			} else {
-				row[j] = new Cell('empty');
+				row[j] = empty;
 			}
 		}
 	}
 	
 	this.placeDisk = function(rowIndex, colIndex, player) {
-		myCells[rowIndex][colIndex] = new Cell(player);
-		viewUpdater.updateCell(rowIndex, colIndex, player);
+		var updateCell = function(rowIndex, colIndex, color) {
+			myCells[rowIndex][colIndex] = color;
+			viewUpdater.updateCell(rowIndex, colIndex, color);
+		};
+		updateCell(rowIndex, colIndex, player);
 		
-		findCellsToFlip = function(enclosingColor, x, y, xDirection, yDirection) {
+		var findCellsToFlip = function(enclosingColor, edgeX, edgeY, xDirection, yDirection) {
 			var cellsToFlip = new Array();
-			x += xDirection; 
-			y += yDirection;
+			var x = edgeX + xDirection; 
+			var y = edgeY + yDirection;
 			for (var i = x, j = y; i < 8 && i >= 0 && j < 8 && j >= 0; i += xDirection, j += yDirection) {
-				var currentColor = myCells[i][j].getColor();
-				if (currentColor != 'empty' && currentColor != enclosingColor) {
-					cellsToFlip.push({ color: enclosingColor, x: i, y: j });
+				var currentColor = myCells[i][j];
+				if (currentColor != empty && currentColor != enclosingColor) {
+					cellsToFlip.push({ newColor: enclosingColor, x: i, y: j });
 				} else if (currentColor == enclosingColor) {
 					return cellsToFlip;
 				} else {
@@ -37,20 +42,20 @@ function Board(viewUpdater) {
 			}
 			return new Array();
 		};
-		flip = function(cellsToFlip) {
+		var flip = function(cellsToFlip) {
 			for (var i = 0; i < cellsToFlip.length; i++) {
-				myCells[cellsToFlip[i].x][cellsToFlip[i].y] = new Cell(cellsToFlip[i].color);
-				viewUpdater.updateCell(cellsToFlip[i].x, cellsToFlip[i].y, cellsToFlip[i].color);
+				var flip = cellsToFlip[i];
+				updateCell(flip.x, flip.y, flip.newColor);
 			}
 		};
-		flip(findCellsToFlip(player, rowIndex, colIndex, 1, 0));
-		flip(findCellsToFlip(player, rowIndex, colIndex, -1, 0));
-		flip(findCellsToFlip(player, rowIndex, colIndex, 0, 1));
-		flip(findCellsToFlip(player, rowIndex, colIndex, 0, -1));
-		flip(findCellsToFlip(player, rowIndex, colIndex, 1, 1));
-		flip(findCellsToFlip(player, rowIndex, colIndex, 1, -1));
-		flip(findCellsToFlip(player, rowIndex, colIndex, -1, 1));
-		flip(findCellsToFlip(player, rowIndex, colIndex, -1, -1));
-//		viewUpdater.updateCell(3, 3, player);
+		cellsToFlip = new Array();
+		for (var xDir = -1; xDir <= 1; xDir++) {
+			for (var yDir = -1; yDir <= 1; yDir++) {
+				if (xDir != 0 || yDir != 0) {
+					cellsToFlip = cellsToFlip.concat(findCellsToFlip(player, rowIndex, colIndex, xDir, yDir));
+				}
+			}	
+		}
+		flip(cellsToFlip);
 	};
 };
