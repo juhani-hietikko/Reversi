@@ -3,7 +3,14 @@ $.Controller.extend("App.Controllers.Board", {
     init: function(el, options) {
     	this.element.html('//app/views/sections/board.ejs', {});
     	this.moves = 0;
+    	this.board = new Board(this);
     },
+    
+    updateCell: function(rowIndex, colIndex, newCellStatus) {
+		var disk = "//app/views/sections/" + newCellStatus + "_disk.ejs";
+		var clickedCell = this.findCell(rowIndex, colIndex);
+		clickedCell.place(disk);
+	},
     
     findCell: function(rowIndexOfCell, colIndexOfCell) {
 		var buildCell = function(cellPrototype, rowIndex, colIndex) {
@@ -25,14 +32,9 @@ $.Controller.extend("App.Controllers.Board", {
 		});
 		return foundCell;
 	},
-	
+    
 	placeDisk: function(rowIndex, colIndex, player) {
-		var disk = "//app/views/sections/" + player + "_disk.ejs";
-		var clickedCell = this.findCell(rowIndex, colIndex);
-		clickedCell.place(disk);
-		
-		var temp = this.findCell(3, 3);
-		$(temp).html(disk, {});
+		this.board.placeDisk(rowIndex, colIndex, player);
 	},
 
 	click: function(el, ev) {
