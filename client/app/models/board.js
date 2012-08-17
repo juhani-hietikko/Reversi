@@ -68,4 +68,24 @@ function Board(viewUpdater) {
 			return ILLEGAL_MOVE;
 		};
 	};
+	
+	this.countDisks = function(color) {
+		var count = 0;
+		for (var i = 0; i < 8; i++) {
+			for (var j = 0; j < 8; j++) {
+				if (this.cells[i][j] == color) {
+					count++;
+				};
+			};
+		}
+		return count;
+	}
+	
+	this.blackDisks = function() {
+		return this.countDisks(BLACK);
+	};
+	
+	this.whiteDisks = function() {
+		return this.countDisks(WHITE);
+	};
 };

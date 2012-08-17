@@ -43,4 +43,28 @@ steal("funcunit", "./board_utils.js").then(function() {
 			});
 		});
 	});
+	
+	test("intial score is 2-2", function() {
+		S(document).ready(function() {
+			equal(S('#score').text(), "Black-White 2-2");
+		});
+	});
+
+	test("after placing a black disk to 3,2 score is 4-1", function() {
+		S(document).ready(function() {
+			clickCell(3, 2).andThen(function() {
+				equal(S('#score').text(), "Black-White 4-1");
+			});
+		});
+	});
+
+	test("after placing a black disk to 3,2 and a white disk to 2,2 score is 3-3", function() {
+		S(document).ready(function() {
+			clickCell(3, 2).andThen(function() {
+				clickCell(2, 2).andThen(function() {
+					equal(S('#score').text(), "Black-White 3-3");
+				});
+			});
+		});
+	});
 });

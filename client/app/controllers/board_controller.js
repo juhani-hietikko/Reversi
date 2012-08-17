@@ -45,7 +45,7 @@ $.Controller.extend("App.Controllers.Board", {
 		var moveSuccessful = this.placeDisk(clickedRowIndex, clickedColIndex, playerToMove);
 		if (moveSuccessful) {
 			this.moves++;
-			this.publish('moveDoneByPlayer');
+			this.publish('moveDoneByPlayer', this.board);
 		}
 	}
 });
