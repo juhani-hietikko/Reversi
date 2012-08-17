@@ -24,3 +24,19 @@ var clickCell = function(rowIndexOfCell, colIndexOfCell) {
 		}
 	};
 };
+
+var doMoves = function(moves) {
+	if (moves.length > 0) {
+		var move = moves.shift();
+		clickCell(move.x, move.y).andThen(function() {
+			doMoves(moves);
+		});
+	}
+	return {
+		andThen : function(then) {
+			S.wait(100, function() {
+				then();
+			});
+		}
+	};
+};

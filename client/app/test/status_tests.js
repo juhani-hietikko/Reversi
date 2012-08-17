@@ -67,4 +67,14 @@ steal("funcunit", "./board_utils.js").then(function() {
 			});
 		});
 	});
+	
+	test("when no leagal moves left says game is over", function() {
+		S(document).ready(function() {
+			var moves = new Array({x:5,y:4},{x:3,y:5},{x:2,y:4},{x:5,y:5},
+					{x:4,y:6},{x:5,y:3},{x:6,y:4},{x:4,y:5},{x:4,y:2});
+			doMoves(moves).andThen(function() {
+				equal(S('#whoseMove').text(), "Game over.");
+			});
+		});
+	});
 });
